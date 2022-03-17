@@ -15,10 +15,10 @@ body {
 .calculator {
   height: 60vh;
   width: 40vh;
-  background: rgb(224, 182, 189);
+  background: rgb(209 209 209);
   padding: 30px;
   border-radius: 20px;
-  border: 2px solid brown;
+  border: 2px solid black;
   display: flex;
   flex-direction: column;
 }
@@ -44,8 +44,8 @@ body {
 
 .button {
   border-radius: 20px;
-  border: 2px solid brown;
-  background: rgb(173, 72, 89);
+  border: 2px solid black;
+  background: rgb(76 213 207);
   width: 20%;
   padding: 18px 28px;
   margin: 5px;
