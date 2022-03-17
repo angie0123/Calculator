@@ -9,7 +9,7 @@ const calculator = {
   add: { fn: (a, b) => a + b, symbol: "+" },
   subtract: { fn: (a, b) => a - b, symbol: "-" },
   multiply: { fn: (a, b) => a * b, symbol: "x" },
-  divide: { fn: (a, b) => a / b, symbol: "%" },
+  divide: { fn: (a, b) => a / b, symbol: "÷" },
   operate: { fn: (operator, a, b) => operator(a, b), symbol: "=" },
 };
 
