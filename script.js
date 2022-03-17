@@ -13,29 +13,58 @@ const calculator = {
   operate: { fn: (operator, a, b) => operator(a, b), symbol: "=" },
 };
 
-function initCalc() {
-  html.display.textContent = "1233";
+const buttons = {};
+const fnButtons = {};
 
+function initCalc() {
   const clear = document.createElement("div");
-  clear.classList.add("clear");
-  html.buttonContainer.appendChild(clear);
+  clear.textContent = "AC";
+  clear.classList.add("clear", "button");
+  buttons["clear"] = clear;
+
   for (let i = 0; i < 10; i++) {
     const button = document.createElement("div");
     button.classList.add(`button`, `number`, `number-${i}`);
     button.textContent = i;
-    html.buttonContainer.appendChild(button);
+    const buttonName = `num${i}`;
+    buttons[buttonName] = button;
   }
   const decimalBtn = document.createElement("div");
   decimalBtn.classList.add("button", "decimal");
   decimalBtn.textContent = ".";
-  html.buttonContainer.appendChild(decimalBtn);
+  buttons["decimal"] = decimalBtn;
 
   for (key in calculator) {
     const fnButton = document.createElement("div");
     fnButton.classList.add(`button`, `function`, `${key}`);
     fnButton.textContent = calculator[key].symbol;
-    html.buttonContainer.appendChild(fnButton);
+    fnButtons[key] = fnButton;
   }
+
+  const orderedBtns = [
+    buttons.num7,
+    buttons.num8,
+    buttons.num9,
+    buttons.clear,
+    buttons.num4,
+    buttons.num5,
+    buttons.num6,
+    fnButtons.divide,
+    buttons.num1,
+    buttons.num2,
+    buttons.num3,
+    fnButtons.multiply,
+    buttons.num0,
+    buttons.decimal,
+    fnButtons.subtract,
+    fnButtons.add,
+    fnButtons.operate,
+  ];
+
+  for (button of orderedBtns) {
+    html.buttonContainer.appendChild(button);
+  }
+  console.log(orderedBtns);
 }
 
 initCalc();
