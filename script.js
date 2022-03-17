@@ -39,6 +39,9 @@ function initCalc() {
   const decimalBtn = document.createElement("div");
   decimalBtn.classList.add("button", "decimal");
   decimalBtn.textContent = ".";
+  decimalBtn.addEventListener("click", () => {
+    if (!html.display.textContent.includes(".")) updateDisplay(".");
+  });
   buttons["decimal"] = decimalBtn;
 
   for (key in calculator) {
@@ -81,10 +84,10 @@ function updateEval(operator) {
 }
 
 function updateDisplay(num) {
-  if (html.display.textContent == 0) {
-    html.display.textContent = num;
-  } else {
+  if (html.display.textContent != 0) {
     html.display.textContent += num;
+  } else {
+    html.display.textContent = num;
   }
 }
 
