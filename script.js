@@ -15,11 +15,14 @@ const calculator = {
 
 const buttons = {};
 const fnButtons = {};
+let numToDisplay;
 
 function initCalc() {
+  html.display.textContent = "1234";
   const clear = document.createElement("div");
   clear.textContent = "AC";
   clear.classList.add("clear", "button");
+  clear.addEventListener("click", () => (html.display.textContent = ""));
   buttons["clear"] = clear;
 
   for (let i = 0; i < 10; i++) {
