@@ -29,6 +29,9 @@ function initCalc() {
     const button = document.createElement("div");
     button.classList.add(`button`, `number`, `number-${i}`);
     button.textContent = i;
+    button.addEventListener("click", () => {
+      updateDisplay(i);
+    });
     const buttonName = `num${i}`;
     buttons[buttonName] = button;
   }
@@ -68,6 +71,10 @@ function initCalc() {
     html.buttonContainer.appendChild(button);
   }
   console.log(orderedBtns);
+}
+
+function updateDisplay(num) {
+  html.display.textContent += num;
 }
 
 initCalc();
