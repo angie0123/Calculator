@@ -15,14 +15,15 @@ const calculator = {
 
 const buttons = {};
 const fnButtons = {};
-let numToDisplay;
+let numToDisplay = 0;
+let eval = {};
 
 function initCalc() {
-  html.display.textContent = "1234";
+  html.display.textContent = numToDisplay;
   const clear = document.createElement("div");
   clear.textContent = "AC";
   clear.classList.add("clear", "button");
-  clear.addEventListener("click", () => (html.display.textContent = ""));
+  clear.addEventListener("click", () => (html.display.textContent = 0));
   buttons["clear"] = clear;
 
   for (let i = 0; i < 10; i++) {
@@ -44,6 +45,8 @@ function initCalc() {
     const fnButton = document.createElement("div");
     fnButton.classList.add(`button`, `function`, `${key}`);
     fnButton.textContent = calculator[key].symbol;
+    const newEval = updateEval.bind(null, key);
+    fnButton.addEventListener("click", newEval);
     fnButtons[key] = fnButton;
   }
 
@@ -70,11 +73,19 @@ function initCalc() {
   for (button of orderedBtns) {
     html.buttonContainer.appendChild(button);
   }
-  console.log(orderedBtns);
+}
+
+function updateEval(operator) {
+  eval.operand1 = +html.display.textContent;
+  eval.operator = operator;
 }
 
 function updateDisplay(num) {
-  html.display.textContent += num;
+  if (html.display.textContent == 0) {
+    html.display.textContent = num;
+  } else {
+    html.display.textContent += num;
+  }
 }
 
 initCalc();
