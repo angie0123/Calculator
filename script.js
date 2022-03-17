@@ -15,15 +15,19 @@ const calculator = {
 
 const buttons = {};
 const fnButtons = {};
-let numToDisplay = 0;
-let eval = {};
+let eval = {
+  operand1: null,
+  operator: null,
+  operand2: null,
+};
 
 function initCalc() {
-  html.display.textContent = numToDisplay;
+  html.display.textContent = 0;
+
   const clear = document.createElement("div");
   clear.textContent = "AC";
   clear.classList.add("clear", "button");
-  clear.addEventListener("click", () => (html.display.textContent = 0));
+  clear.addEventListener("click", clearDisplay);
   buttons["clear"] = clear;
 
   for (let i = 0; i < 10; i++) {
@@ -49,7 +53,11 @@ function initCalc() {
     fnButton.classList.add(`button`, `function`, `${key}`);
     fnButton.textContent = calculator[key].symbol;
     const newEval = updateEval.bind(null, key);
-    fnButton.addEventListener("click", newEval);
+    fnButton.addEventListener("click", () => {
+      newEval();
+      clearDisplay();
+      updateDisplay(0);
+    });
     fnButtons[key] = fnButton;
   }
 
@@ -89,6 +97,13 @@ function updateDisplay(num) {
   } else {
     html.display.textContent = num;
   }
+  if (eval.operand1) {
+    console.log(eval.operand1);
+  }
+}
+
+function clearDisplay() {
+  html.display.textContent = 0;
 }
 
 initCalc();
