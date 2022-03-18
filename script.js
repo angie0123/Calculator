@@ -127,17 +127,19 @@ function appendBtnsToHTML() {
   }
 }
 
+// updates state of operand and operator
 function updateEval(operator) {
-  console.log(eval);
-  if (eval.operand !== null) {
+  if (eval.operator !== null && eval.operand !== null) {
     const result = calculator.operate.fn(
       calculator[eval.operator].fn,
       eval.operand,
       +html.display.textContent
     );
+    eval.operand = result;
+  } else if (eval.operand === null) {
+    eval.operand = +html.display.textContent;
   }
-  eval.operand = +html.display.textContent;
-  eval.operator = operator;
+  eval.operator = operator === "operate" ? null : operator;
   console.log(eval);
 }
 
