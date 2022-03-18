@@ -2,7 +2,7 @@ const html = {
   body: document.querySelector("body"),
   calculatorBody: document.querySelector(".calculator"),
   buttonContainer: document.querySelector(".buttons"),
-  display: document.querySelector(".display"),
+  displayContainer: document.querySelector(".display"),
 };
 
 const calculator = {
@@ -46,7 +46,7 @@ let eval = {
 };
 
 function initCalc() {
-  html.display.textContent = 0;
+  addDisplay();
   addClearBtn();
   addNumericBtns();
   addDecimalBtn();
@@ -58,7 +58,7 @@ function addClearBtn() {
   const clear = document.createElement("div");
   clear.textContent = "AC";
   clear.classList.add("clear", "button");
-  clear.addEventListener("click", clearDisplay);
+  clear.addEventListener("click", reset);
   buttons["clear"] = clear;
 }
 
@@ -81,7 +81,7 @@ function addDecimalBtn() {
   decimalBtn.classList.add("button", "decimal");
   decimalBtn.textContent = ".";
   decimalBtn.addEventListener("click", () => {
-    if (!html.display.textContent.includes(".")) updateDisplay(".");
+    if (!html.displayMain.textContent.includes(".")) updateDisplay(".");
   });
   buttons["decimal"] = decimalBtn;
 }
@@ -94,8 +94,6 @@ function addFunctionBtns() {
     const eval = updateEval.bind(null, key);
     fnButton.addEventListener("click", () => {
       eval();
-      clearDisplay();
-      updateDisplay(0);
     });
     fnButtons[key] = fnButton;
   }
@@ -133,26 +131,56 @@ function updateEval(operator) {
     const result = calculator.operate.fn(
       calculator[eval.operator].fn,
       eval.operand,
-      +html.display.textContent
+      +html.displayMain.textContent
     );
     eval.operand = result;
   } else if (eval.operand === null) {
-    eval.operand = +html.display.textContent;
+    eval.operand = +html.displayMain.textContent;
   }
   eval.operator = operator === "operate" ? null : operator;
-  console.log(eval);
+  html.displayMain.textContent = 0;
+  updateDisplay(0);
 }
 
 function updateDisplay(num) {
-  if (html.display.textContent != 0) {
-    html.display.textContent += num;
+  updateTopDisplay();
+  updateMainDisplay(num);
+}
+
+function updateTopDisplay() {
+  html.displayTop.textContent = eval.operand === null ? "" : eval.operand;
+}
+
+function updateMainDisplay(num) {
+  if (num === 0) {
+    html.displayMain.textContent = num;
+  } else if (html.displayMain.textContent != 0) {
+    html.displayMain.textContent += num;
   } else {
-    html.display.textContent = num;
+    html.displayMain.textContent = num;
   }
 }
 
+function addDisplay() {
+  html.displayTop = document.createElement("div");
+  html.displayTop.classList.add("display-top");
+
+  html.displayMain = document.createElement("div");
+  html.displayMain.classList.add("display-main");
+
+  html.displayContainer.appendChild(html.displayTop);
+  html.displayContainer.appendChild(html.displayMain);
+  html.displayMain.textContent = 0;
+}
+
 function clearDisplay() {
-  html.display.textContent = 0;
+  updateDisplay(0);
+}
+
+function reset() {
+  eval.operand = null;
+  eval.operator = null;
+  clearDisplay();
 }
 
 initCalc();
